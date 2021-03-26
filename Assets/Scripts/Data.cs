@@ -28,7 +28,6 @@ namespace povar3d
                 {
                     var gameObject = Resources.Load<Player>("Prefabs/Player");
                     _player = Object.Instantiate(gameObject);
-                    _player.GetComponent<PlayerGravityBody>().enabled = true;
                 }
 
                 return _player;

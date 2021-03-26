@@ -1,21 +1,34 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace povar3d {
     public sealed class ListExecuteObject : IEnumerator, IEnumerable
     {
-        private IExecute[] _interactiveObjects;
+        private List<IExecute> _interactiveObjects;
         private int _index = -1;
 
         public void AddExecuteObject(IExecute execute)
         {
             if (_interactiveObjects == null)
             {
-                _interactiveObjects = new[] { execute };
+                _interactiveObjects = new List<IExecute> { execute };
                 return;
             }
-            Array.Resize(ref _interactiveObjects, Length + 1);
-            _interactiveObjects[Length - 1] = execute;
+            _interactiveObjects.Add(execute);
+        }
+        
+        public void AddExecuteObjects(IExecute[] execute)
+        {
+            foreach (var item in execute)
+            {
+                AddExecuteObject(item);
+            }
+        }
+        
+        public void DeleteExecuteObject(IExecute execute)
+        {
+            _interactiveObjects.Remove(execute);
         }
 
         public IExecute this[int index]
@@ -24,11 +37,11 @@ namespace povar3d {
             private set => _interactiveObjects[index] = value;
         }
 
-        public int Length => _interactiveObjects.Length;
+        public int Length => _interactiveObjects.Count;
 
         public bool MoveNext()
         {
-            if (_index == _interactiveObjects.Length - 1)
+            if (_index == _interactiveObjects.Count - 1)
             {
                 Reset();
                 return false;

@@ -11,9 +11,8 @@ namespace povar3d
             HealthText.text = Health.ToString();
             RotationSpeed = 3.0f;
             MoveSpeed = 1.5f;
-            GetComponent<PlayerGravityBody>().attractorPlanet = GameObject.FindGameObjectWithTag("Planet").GetComponent<PlanetScript>();
             //Временно
-            StopDistance = 0.5f;
+            StopDistance = 1f;
         }
 
         internal override void Move()

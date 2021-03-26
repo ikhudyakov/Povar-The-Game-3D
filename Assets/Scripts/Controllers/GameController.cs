@@ -6,6 +6,7 @@ namespace povar3d
     public class GameController : MonoBehaviour
     {
         private Controllers _controllers;
+        private CameraController _cameraController;
         private ListExecuteObject _interactiveObject;
         private ListFixedExecuteObject _fixedExecuteObject;
         private Player player;
@@ -20,8 +21,11 @@ namespace povar3d
             _interactiveObject.AddExecuteObject(player);
             _fixedExecuteObject.AddExecuteObject(player);
 
+            _cameraController = new CameraController(player.transform, Camera.main.transform);
+            _interactiveObject.AddExecuteObject(_cameraController);
+
             //Переписать нормально!
-            _interactiveObject.AddExecuteObject(FindObjectOfType<Enemy>());
+            _interactiveObject.AddExecuteObjects(FindObjectsOfType<Enemy>());
         }
 
         private void Start()
@@ -40,8 +44,9 @@ namespace povar3d
             {
                 var interactiveObject = _interactiveObject[i];
 
-                if (interactiveObject == null)
+                if (interactiveObject.Equals(null))
                 {
+                    _interactiveObject.DeleteExecuteObject(interactiveObject);
                     continue;
                 }
                 interactiveObject.Execute(deltaTime);
@@ -59,6 +64,7 @@ namespace povar3d
 
                 if (interactiveObject == null)
                 {
+                    _fixedExecuteObject.DeleteExecuteObject(interactiveObject);
                     continue;
                 }
                 interactiveObject.FixedExecute(fixedDeltaTime);

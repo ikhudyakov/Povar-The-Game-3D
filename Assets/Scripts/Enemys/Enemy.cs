@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 namespace povar3d
 {
@@ -10,6 +11,7 @@ namespace povar3d
         private Animator _animator;
         private Rigidbody _rigidbody;
         private Transform _playerTransform;
+        private NavMeshAgent _navMeshAgent;
         private float _rotationSpeed;
         private float _moveSpeed;
         private float _stopDistance;
@@ -19,6 +21,7 @@ namespace povar3d
         public Animator EnemyAnimator { get => _animator; set => _animator = value; }
         public Rigidbody EnemyRigidbody { get => _rigidbody; set => _rigidbody = value; }
         public Transform PlayerTransform { get => _playerTransform; set => _playerTransform = value; }
+        public NavMeshAgent NavMeshAgent { get => _navMeshAgent; set => _navMeshAgent = value; }
         public float RotationSpeed { get => _rotationSpeed; set => _rotationSpeed = value; }
         public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
         public float StopDistance { get => _stopDistance; set => _stopDistance = value; }
@@ -29,6 +32,9 @@ namespace povar3d
             PlayerTransform = FindObjectOfType<Player>().GetComponent<Transform>();
             EnemyAnimator = GetComponent<Animator>();
             EnemyRigidbody = GetComponent<Rigidbody>();
+            NavMeshAgent = GetComponent<NavMeshAgent>();
+            //Временно
+            NavMeshAgent.stoppingDistance = 1f;
         }
 
         public void Execute(float deltaTime)
@@ -37,8 +43,9 @@ namespace povar3d
             {
                 if (CheckDistance() >= StopDistance)
                 {
-                    Move();
-                    Rotation();
+                    NavMeshAgent.SetDestination(PlayerTransform.position);
+                    //Move();
+                    //Rotation();
                     EnemyAnimator.SetFloat("Speed", _moveSpeed);
                 }
                 else
@@ -84,9 +91,14 @@ namespace povar3d
         {
             if (Health <= 0)
             {
-                Destroy(gameObject);
+                Health = 0;
+                HealthText.text = Health.ToString();
+                Destroy(gameObject, 3f);
+                EnemyAnimator.SetLayerWeight(2, 1f);
+                EnemyAnimator.SetBool("Death", true);
+                NavMeshAgent.stoppingDistance = 100f;
+                EnemyRigidbody.isKinematic = true;
             }
         }
-
     }
 }
