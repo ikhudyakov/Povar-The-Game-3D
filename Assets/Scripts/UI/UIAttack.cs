@@ -21,12 +21,12 @@ namespace povar3d {
 
         private void OnPointerEnter(BaseEventData data)
         {
-            player.Attack();
+            player.Attack.StartAttack();
         }
 
         private void OnPointerExit(BaseEventData data)
         {
-            player.StopAttack();
+            player.Attack.StopAttack();
         }
     }
 }

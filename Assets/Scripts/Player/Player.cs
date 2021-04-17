@@ -10,95 +10,45 @@ namespace povar3d
 
         private Animator _animator;
         private Rigidbody _rigidbody;
-        private DynamicJoystick _dynamicJoystick;
-        private Vector3 _moveDirection;
 
+        private Movement _movement;
         private Weapon _weapon;
+        private Attack _attack;
+        private InputController _input;
 
         public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
         public int AllHealth { get => _allHealth; set => _allHealth = value; }
         public int Health { get => _health; set => _health = value; }
         public Animator PlayerAnimator { get => _animator; set => _animator = value; }
         public Rigidbody PlayerRigidbody { get => _rigidbody; set => _rigidbody = value; }
-        public Vector3 MoveDirection { get => _moveDirection; set => _moveDirection = value; }
+        public Attack Attack { get => _attack; set => _attack = value; }
+        public InputController Input { get => _input; set => _input = value; }
 
         private void Awake()
         {
             //Здоровье - переписать
             AllHealth = Health = 350;
             MoveSpeed = 2.2f;
+
             PlayerAnimator = GetComponent<Animator>();
             PlayerRigidbody = GetComponent<Rigidbody>();
-            _dynamicJoystick = FindObjectOfType<DynamicJoystick>();
             _weapon = GetComponentInChildren<Weapon>();
+            _attack = new Attack(_weapon, _animator);
+        }
+
+        private void Start()
+        {
+            _movement = new Movement(transform, PlayerRigidbody, PlayerAnimator, MoveSpeed, Input);
         }
 
         public void Execute(float deltaTime)
         {
-            MoveDirection = new Vector3(_dynamicJoystick.Horizontal, 0, _dynamicJoystick.Vertical).normalized;
+            _movement.Execute(deltaTime);
         }
 
         public void FixedExecute(float fixedDeltaTime)
         {
-            Move();
-        }
-
-        //private void Update()
-        //{
-        //    MoveDirection = new Vector3(_dynamicJoystick.Horizontal, 0, _dynamicJoystick.Vertical).normalized;
-        //}
-
-        //void FixedUpdate()
-        //{
-
-        //    Vector3 down = Vector3.Project(PlayerRigidbody.velocity, transform.up);
-        //    Vector3 forward = transform.forward * MoveSpeed;
-        //    forward = Vector3.ClampMagnitude(forward, MoveSpeed);
-
-        //    PlayerAnimator.SetFloat("Speed", GetComponent<Rigidbody>().velocity.magnitude);
-
-        //    if (_dynamicJoystick.Horizontal != 0f || _dynamicJoystick.Vertical != 0f)
-        //    {
-        //        PlayerRigidbody.velocity = down + forward;
-        //        transform.LookAt(MoveDirection + transform.position);
-        //    }
-        //}
-
-        //Передвижение игрока(используется джойстик)
-        private void Move()
-        {
-            MoveDirection = new Vector3(_dynamicJoystick.Horizontal, 0, _dynamicJoystick.Vertical).normalized;
-            Vector3 down = Vector3.Project(PlayerRigidbody.velocity, transform.up);
-            Vector3 forward = transform.forward * MoveSpeed;
-            forward = Vector3.ClampMagnitude(forward, MoveSpeed);
-
-            PlayerAnimator.SetFloat("Speed", GetComponent<Rigidbody>().velocity.magnitude);
-
-            if (_dynamicJoystick.Horizontal != 0f || _dynamicJoystick.Vertical != 0f)
-            {
-                PlayerRigidbody.velocity = down + forward;
-                transform.LookAt(MoveDirection + transform.position);
-            }
-        }
-
-        //Атака игрока (переписать в отдельный класс)
-        public void Attack()
-        {
-            if (_weapon is HandWeapon)
-            {
-                PlayerAnimator.SetFloat("HandAttack", 1.0f);
-                _weapon.GetComponent<CapsuleCollider>().enabled = true;
-            }
-        }
-
-        //Остановка Атаки игрока (переписать в отдельный класс)
-        public void StopAttack()
-        {
-            if (_weapon is HandWeapon)
-            {
-                PlayerAnimator.SetFloat("HandAttack", 0.0f);
-                _weapon.GetComponent<CapsuleCollider>().enabled = false;
-            }
-        }
+            _movement.Move();
+        }        
     }
 }

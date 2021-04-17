@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace povar3d
 {
@@ -7,22 +6,31 @@ namespace povar3d
     {
         private Controllers _controllers;
         private CameraController _cameraController;
+        private InputController _inputController;
         private ListExecuteObject _interactiveObject;
         private ListFixedExecuteObject _fixedExecuteObject;
         private Player player;
+        private Enemy frie;
         private Data data;
 
         private void Awake()
         {
             _interactiveObject = new ListExecuteObject();
             _fixedExecuteObject = new ListFixedExecuteObject();
+
             data = new Data();
             player = data.Player;
+            frie = data.Frie;
+
             _interactiveObject.AddExecuteObject(player);
             _fixedExecuteObject.AddExecuteObject(player);
 
+            _inputController = new MobileInputController(player);
+            _interactiveObject.AddExecuteObject(_inputController);
+
             _cameraController = new CameraController(player.transform, Camera.main.transform);
             _interactiveObject.AddExecuteObject(_cameraController);
+
 
             //Переписать нормально!
             _interactiveObject.AddExecuteObjects(FindObjectsOfType<Enemy>());

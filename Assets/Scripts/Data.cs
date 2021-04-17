@@ -5,6 +5,7 @@ namespace povar3d
     public class Data
     {
         private Player _player;
+        private Enemy _frie;
         private Camera _mainCamera;
         private Canvas _canvas;
 
@@ -31,6 +32,20 @@ namespace povar3d
                 }
 
                 return _player;
+            }
+        }
+        
+        public Enemy Frie
+        {
+            get
+            {
+                if (_frie == null)
+                {
+                    var gameObject = Resources.Load<Frie>("Prefabs/frie");
+                    _frie = Object.Instantiate(gameObject);
+                }
+
+                return _frie;
             }
         }
 
