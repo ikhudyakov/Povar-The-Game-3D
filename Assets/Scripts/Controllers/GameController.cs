@@ -10,17 +10,15 @@ namespace povar3d
         private ListExecuteObject _interactiveObject;
         private ListFixedExecuteObject _fixedExecuteObject;
         private Player player;
-        private Enemy frie;
-        private Data data;
+        private Enemy enemy;
 
         private void Awake()
         {
             _interactiveObject = new ListExecuteObject();
             _fixedExecuteObject = new ListFixedExecuteObject();
 
-            data = new Data();
-            player = data.Player;
-            frie = data.Frie;
+            IPlayerFactory playerFactory = new PlayerFactory();
+            player = playerFactory.Create();
 
             _interactiveObject.AddExecuteObject(player);
             _fixedExecuteObject.AddExecuteObject(player);
@@ -31,8 +29,9 @@ namespace povar3d
             _cameraController = new CameraController(player.transform, Camera.main.transform);
             _interactiveObject.AddExecuteObject(_cameraController);
 
+            IEnemyFactory enemyFactory = new FrieFactory();
+            enemy = enemyFactory.Create();
 
-            //Переписать нормально!
             _interactiveObject.AddExecuteObjects(FindObjectsOfType<Enemy>());
         }
 

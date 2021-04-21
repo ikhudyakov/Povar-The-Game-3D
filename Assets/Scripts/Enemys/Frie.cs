@@ -14,10 +14,5 @@ namespace povar3d
             //Временно
             StopDistance = 1f;
         }
-
-        internal override void Move()
-        {
-            base.Move();
-        }
     }
 }
