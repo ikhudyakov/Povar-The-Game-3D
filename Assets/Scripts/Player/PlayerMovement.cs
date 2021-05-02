@@ -29,7 +29,7 @@ namespace povar3d
             Vector3 forward = _transform.forward * _moveSpeed;
             forward = Vector3.ClampMagnitude(forward, _moveSpeed);
 
-            _animator.SetFloat("Speed", _animator.GetComponent<Rigidbody>().velocity.magnitude);
+            _animator.SetFloat("Speed", _rigidbody.velocity.magnitude);
 
             if (_input.Horizontal != 0f || _input.Vertical != 0f)
             {

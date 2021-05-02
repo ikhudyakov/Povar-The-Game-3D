@@ -6,11 +6,13 @@ namespace povar3d
     {
         private Weapon _weapon;
         private Animator _animator;
+        private Collider _collider;
 
         public PlayerAttack(Weapon weapon, Animator animator)
         {
             _weapon = weapon;
             _animator = animator;
+            _collider = _weapon.GetComponent<CapsuleCollider>();
         }
 
         public void StartAttack()
@@ -18,7 +20,7 @@ namespace povar3d
             if (_weapon is HandWeapon)
             {
                 _animator.SetFloat("HandAttack", 1.0f);
-                _weapon.GetComponent<CapsuleCollider>().enabled = true;
+                _collider.enabled = true;
             }
         }
 
@@ -27,7 +29,7 @@ namespace povar3d
             if (_weapon is HandWeapon)
             {
                 _animator.SetFloat("HandAttack", 0.0f);
-                _weapon.GetComponent<CapsuleCollider>().enabled = false;
+                _collider.enabled = false;
             }
         }
     }

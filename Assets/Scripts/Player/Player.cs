@@ -26,10 +26,7 @@ namespace povar3d
 
         private void Awake()
         {
-            //Здоровье - переписать
-            AllHealth = Health = 350;
-            MoveSpeed = 2.2f;
-
+            AllHealth = Health;
             PlayerAnimator = GetComponent<Animator>();
             PlayerRigidbody = GetComponent<Rigidbody>();
             _weapon = GetComponentInChildren<Weapon>();

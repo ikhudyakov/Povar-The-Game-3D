@@ -12,6 +12,7 @@ namespace povar3d
         private Animator _animator;
         private Rigidbody _rigidbody;
         private NavMeshAgent _navMeshAgent;
+        private Collider _collider;
         private float _moveSpeed;
         private float _rotationSpeed;
         private float _stopDistance;
@@ -24,7 +25,7 @@ namespace povar3d
         public Animator EnemyAnimator { get => _animator; set => _animator = value; }
         public Rigidbody EnemyRigidbody { get => _rigidbody; set => _rigidbody = value; }
         public NavMeshAgent NavMeshAgent { get => _navMeshAgent; set => _navMeshAgent = value; }
-        public NavMeshAgent NavMeshAgent1 { get => _navMeshAgent; set => _navMeshAgent = value; }
+        public Collider EnemyCollider { get => _collider; set => _collider = value; }
         public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
         public float RotationSpeed { get => _rotationSpeed; set => _rotationSpeed = value; }
         public float StopDistance { get => _stopDistance; set => _stopDistance = value; }
@@ -35,6 +36,9 @@ namespace povar3d
             EnemyAnimator = GetComponent<Animator>();
             EnemyRigidbody = GetComponent<Rigidbody>();
             NavMeshAgent = GetComponent<NavMeshAgent>();
+            HealthText = GetComponentInChildren<TextMesh>();
+            EnemyCollider = GetComponent<Collider>();
+            HealthText.text = Health.ToString();
             _movement = new EnemyMovement(_playerTransform, transform, EnemyAnimator, EnemyRigidbody, NavMeshAgent, MoveSpeed, RotationSpeed, StopDistance);
         }
 
@@ -63,6 +67,7 @@ namespace povar3d
                 EnemyAnimator.SetBool("Death", true);
                 NavMeshAgent.stoppingDistance = 100f;
                 EnemyRigidbody.isKinematic = true;
+                EnemyCollider.enabled = false;
             }
         }
     }

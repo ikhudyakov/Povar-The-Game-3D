@@ -8,9 +8,9 @@ namespace povar3d
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.tag == "Enemy")
+            if (other.TryGetComponent(out Enemy enemy))
             {
-                other.GetComponent<Enemy>().GetDamage(Damage);
+                enemy.GetDamage(Damage);
             }
         }
     }
