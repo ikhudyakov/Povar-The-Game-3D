@@ -11,6 +11,7 @@ namespace povar3d
         private ListFixedExecuteObject _fixedExecuteObject;
         private Player player;
         private Enemy enemy;
+        private FrieData enemyData;
 
         private void Awake()
         {
@@ -29,8 +30,12 @@ namespace povar3d
             _cameraController = new CameraController(player.transform, Camera.main.transform);
             _interactiveObject.AddExecuteObject(_cameraController);
 
+            enemyData = new FrieData(1000, 1.5f, 3.0f, 1.0f);
             IEnemyFactory enemyFactory = new FrieFactory();
-            enemy = enemyFactory.Create();
+            enemy = enemyFactory.Create(enemyData);
+
+            //Копирование объекта
+            Enemy enemyCopy = enemyFactory.Create(enemyData.DeepCopy());
 
             _interactiveObject.AddExecuteObjects(FindObjectsOfType<Enemy>());
         }
