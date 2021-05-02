@@ -11,9 +11,9 @@ namespace povar3d
         private Animator _animator;
         private Rigidbody _rigidbody;
 
-        private Movement _movement;
+        private PlayerMovement _movement;
         private Weapon _weapon;
-        private Attack _attack;
+        private PlayerAttack _attack;
         private InputController _input;
 
         public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
@@ -21,7 +21,7 @@ namespace povar3d
         public int Health { get => _health; set => _health = value; }
         public Animator PlayerAnimator { get => _animator; set => _animator = value; }
         public Rigidbody PlayerRigidbody { get => _rigidbody; set => _rigidbody = value; }
-        public Attack Attack { get => _attack; set => _attack = value; }
+        public PlayerAttack Attack { get => _attack; set => _attack = value; }
         public InputController Input { get => _input; set => _input = value; }
 
         private void Awake()
@@ -33,12 +33,12 @@ namespace povar3d
             PlayerAnimator = GetComponent<Animator>();
             PlayerRigidbody = GetComponent<Rigidbody>();
             _weapon = GetComponentInChildren<Weapon>();
-            _attack = new Attack(_weapon, _animator);
+            _attack = new PlayerAttack(_weapon, _animator);
         }
 
         private void Start()
         {
-            _movement = new Movement(transform, PlayerRigidbody, PlayerAnimator, MoveSpeed, Input);
+            _movement = new PlayerMovement(transform, PlayerRigidbody, PlayerAnimator, MoveSpeed, Input);
         }
 
         public void Execute(float deltaTime)

@@ -2,12 +2,12 @@
 
 namespace povar3d
 {
-    public class Attack 
+    public class PlayerAttack
     {
         private Weapon _weapon;
         private Animator _animator;
 
-        public Attack(Weapon weapon, Animator animator)
+        public PlayerAttack(Weapon weapon, Animator animator)
         {
             _weapon = weapon;
             _animator = animator;

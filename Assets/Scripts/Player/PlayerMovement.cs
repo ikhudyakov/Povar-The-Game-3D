@@ -2,7 +2,7 @@
 
 namespace povar3d
 {
-    public class Movement : IExecute
+    public class PlayerMovement : IExecute
     {
         private float _moveSpeed;
 
@@ -13,7 +13,7 @@ namespace povar3d
         private InputController _input;
         private Vector3 _moveDirection;
 
-        public Movement(Transform playerTransform, Rigidbody playerRigidbody, Animator playerAnimator, float moveSpeed, InputController input)
+        public PlayerMovement(Transform playerTransform, Rigidbody playerRigidbody, Animator playerAnimator, float moveSpeed, InputController input)
         {
             _transform = playerTransform;
             _rigidbody = playerRigidbody;
