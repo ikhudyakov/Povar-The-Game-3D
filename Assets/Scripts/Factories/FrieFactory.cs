@@ -4,13 +4,13 @@ namespace povar3d
 {
     internal sealed class FrieFactory : IEnemyFactory
     {
-        public Enemy Create()
+        public Enemy Create(FrieData data)
         {
             var enemy = Object.Instantiate(Resources.Load<Frie>("Prefabs/frie"));
-            enemy.Health = 1000;
-            enemy.RotationSpeed = 3.0f;
-            enemy.MoveSpeed = 1.5f;
-            enemy.StopDistance = 1.0f;
+            enemy.Health = data.Health;
+            enemy.RotationSpeed = data.RotationSpeed;
+            enemy.MoveSpeed = data.MoveSpeed;
+            enemy.StopDistance = data.StopDistance;
             return enemy;
         }
     }

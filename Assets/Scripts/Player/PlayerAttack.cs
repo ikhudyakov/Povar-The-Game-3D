@@ -2,11 +2,12 @@
 
 namespace povar3d
 {
-    public class PlayerAttack
+    public class PlayerAttack : IAttack
     {
         private Weapon _weapon;
         private Animator _animator;
         private Collider _collider;
+        private GameObjectBuilder effects;
 
         public PlayerAttack(Weapon weapon, Animator animator)
         {
@@ -21,6 +22,9 @@ namespace povar3d
             {
                 _animator.SetFloat("HandAttack", 1.0f);
                 _collider.enabled = true;
+                effects = new GameObjectBuilder();
+                GameObject attackEffect = effects.Visual.Name("AttackEffect").AddEffects(Object.Instantiate(Resources.Load<GameObject>("Prefabs/Weapons/AttackEffect"))).Physics.SetPossition(_weapon.transform.position);
+                GameObject.Destroy(attackEffect, 2f);
             }
         }
 
